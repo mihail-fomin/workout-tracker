@@ -17,7 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SetInput } from "./SetInput";
 import { ExerciseSelector } from "@/components/exercise/ExerciseSelector";
-import { Plus, Trash2, Save, Loader2 } from "lucide-react";
+import { Plus, Save, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface SetData {

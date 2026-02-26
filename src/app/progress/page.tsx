@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { VolumeChart } from "@/components/charts/VolumeChart";
 import { FrequencyChart } from "@/components/charts/FrequencyChart";
 import { TypeDistribution } from "@/components/charts/TypeDistribution";
@@ -36,15 +36,7 @@ export default function ProgressPage() {
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [progressData, setProgressData] = useState<ProgressData | null>(null);
 
-  useEffect(() => {
-    fetchExercises();
-  }, []);
-
-  useEffect(() => {
-    fetchProgress();
-  }, [period, exerciseId]);
-
-  const fetchExercises = async () => {
+  const fetchExercises = useCallback(async () => {
     try {
       const response = await fetch("/api/exercises");
       const data = await response.json();
@@ -52,9 +44,9 @@ export default function ProgressPage() {
     } catch (error) {
       console.error("Error fetching exercises:", error);
     }
-  };
+  }, []);
 
-  const fetchProgress = async () => {
+  const fetchProgress = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
@@ -69,7 +61,15 @@ export default function ProgressPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [period, exerciseId]);
+
+  useEffect(() => {
+    fetchExercises();
+  }, [fetchExercises]);
+
+  useEffect(() => {
+    fetchProgress();
+  }, [fetchProgress]);
 
   const selectedExercise = exercises.find((e) => e.id === exerciseId);
 

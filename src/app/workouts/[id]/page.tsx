@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Edit, Trash2, ArrowLeft, Clock, Flame, Activity } from "lucide-react";
+import { Edit, ArrowLeft, Clock, Flame, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DeleteWorkoutButton } from "./DeleteWorkoutButton";
 

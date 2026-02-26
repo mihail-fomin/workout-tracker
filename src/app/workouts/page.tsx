@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { WorkoutCard } from "@/components/workout/WorkoutCard";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
-import { Plus, Search, Dumbbell, Loader2 } from "lucide-react";
+import { Plus, Dumbbell, Loader2 } from "lucide-react";
 import { WorkoutWithSets, WORKOUT_TYPE_LABELS } from "@/types";
 import { parseFetchResponse } from "@/lib/api-utils";
 
@@ -24,11 +24,7 @@ export default function WorkoutsPage() {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
 
-  useEffect(() => {
-    fetchWorkouts();
-  }, [typeFilter, dateFrom, dateTo]);
-
-  const fetchWorkouts = async () => {
+  const fetchWorkouts = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
@@ -45,7 +41,11 @@ export default function WorkoutsPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [typeFilter, dateFrom, dateTo]);
+
+  useEffect(() => {
+    fetchWorkouts();
+  }, [fetchWorkouts]);
 
   return (
     <div className="space-y-6">

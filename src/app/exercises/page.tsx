@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { ExerciseCard } from "@/components/exercise/ExerciseCard";
 import { Button } from "@/components/ui/button";
@@ -25,11 +25,7 @@ export default function ExercisesPage() {
   const [primaryMuscleGroupFilter, setPrimaryMuscleGroupFilter] = useState<string>("all");
   const [muscleFilter, setMuscleFilter] = useState<string>("all");
 
-  useEffect(() => {
-    fetchExercises();
-  }, [primaryMuscleGroupFilter, muscleFilter]);
-
-  const fetchExercises = async () => {
+  const fetchExercises = useCallback(async () => {
     setIsLoading(true);
     try {
       const params = new URLSearchParams();
@@ -45,7 +41,11 @@ export default function ExercisesPage() {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [primaryMuscleGroupFilter, muscleFilter]);
+
+  useEffect(() => {
+    fetchExercises();
+  }, [fetchExercises]);
 
   const filteredExercises = Array.isArray(exercises)
     ? exercises.filter((exercise) =>

@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     const samsungWorkouts = await fetchWorkouts(accessToken, fromDate);
 
     let imported = 0;
-    let skipped = 0;
+    const skipped = 0;
     let updated = 0;
 
     for (const sWorkout of samsungWorkouts) {

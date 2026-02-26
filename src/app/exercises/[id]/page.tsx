@@ -65,6 +65,7 @@ export default async function ExercisePage({ params }: PageProps) {
 
     const weight = set.weight ?? 0;
     const reps = set.reps ?? 0;
+    const calories = set.calories ?? 0;
 
     if (weight > progressByDate[dateKey].maxWeight) {
       progressByDate[dateKey].maxWeight = weight;
@@ -72,7 +73,7 @@ export default async function ExercisePage({ params }: PageProps) {
     if (reps > progressByDate[dateKey].maxReps) {
       progressByDate[dateKey].maxReps = reps;
     }
-    progressByDate[dateKey].volume += weight * reps;
+    progressByDate[dateKey].volume += calories;
   });
 
   const progressData = Object.entries(progressByDate)

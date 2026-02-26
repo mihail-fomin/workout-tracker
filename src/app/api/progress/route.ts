@@ -44,9 +44,8 @@ export async function GET(request: NextRequest) {
       typeDistribution[workout.type]++;
 
       const volume = workout.sets.reduce((sum, set) => {
-        const reps = set.reps ?? 0;
-        const weight = set.weight ?? 0;
-        return sum + reps * weight;
+        const calories = set.calories ?? 0;
+        return sum + calories;
       }, 0);
       volumeByWeek[weekKey] = (volumeByWeek[weekKey] || 0) + volume;
     });
@@ -106,6 +105,7 @@ export async function GET(request: NextRequest) {
 
         const weight = set.weight ?? 0;
         const reps = set.reps ?? 0;
+        const calories = set.calories ?? 0;
 
         if (weight > progressByDate[dateKey].maxWeight) {
           progressByDate[dateKey].maxWeight = weight;
@@ -113,7 +113,7 @@ export async function GET(request: NextRequest) {
         if (reps > progressByDate[dateKey].maxReps) {
           progressByDate[dateKey].maxReps = reps;
         }
-        progressByDate[dateKey].volume += weight * reps;
+        progressByDate[dateKey].volume += calories;
       });
 
       exerciseProgress = Object.entries(progressByDate).map(

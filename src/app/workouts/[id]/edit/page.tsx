@@ -18,7 +18,7 @@ export default function EditWorkoutPage() {
     endTime?: string;
     type: WorkoutType;
     notes?: string;
-    sets: { id?: string; exerciseId: string; exerciseName: string; setNumber: number; reps?: number; weight?: number; duration?: number; distance?: number; notes?: string }[];
+    sets: { id?: string; exerciseId: string; exerciseName: string; setNumber: number; reps?: number; calories?: number; duration?: number; distance?: number; notes?: string }[];
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [notFoundState, setNotFoundState] = useState(false);
@@ -41,13 +41,13 @@ export default function EditWorkoutPage() {
           endTime: workoutData.endTime ? format(new Date(workoutData.endTime), "HH:mm") : undefined,
           type: workoutData.type as WorkoutType,
           notes: workoutData.notes || undefined,
-          sets: (workoutData.sets || []).map((set: { id?: string; exerciseId: string; exercise: { name: string }; setNumber: number; reps?: number; weight?: number; duration?: number; distance?: number; notes?: string }) => ({
+          sets: (workoutData.sets || []).map((set: { id?: string; exerciseId: string; exercise: { name: string }; setNumber: number; reps?: number; calories?: number; duration?: number; distance?: number; notes?: string }) => ({
             id: set.id,
             exerciseId: set.exerciseId,
             exerciseName: set.exercise?.name || "",
             setNumber: set.setNumber,
             reps: set.reps || undefined,
-            weight: set.weight || undefined,
+            calories: set.calories || undefined,
             duration: set.duration || undefined,
             distance: set.distance || undefined,
             notes: set.notes || undefined,

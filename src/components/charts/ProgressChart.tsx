@@ -23,9 +23,11 @@ export function ProgressChart({
   title = "Прогресс",
   exerciseName,
 }: ProgressChartProps) {
-  const hasWeight = data.some((d) => d.maxWeight !== undefined);
+  const hasWeight = data.some((d) => d.maxWeight !== undefined && (d.maxWeight ?? 0) > 0);
   const hasReps = data.some((d) => d.maxReps !== undefined);
-  const hasVolume = data.some((d) => d.volume !== undefined);
+  const hasVolume = data.some((d) => d.volume !== undefined && (d.volume ?? 0) > 0);
+
+  const leftAxisUnit = hasVolume ? "ккал" : "кг";
 
   return (
     <Card>
@@ -60,7 +62,7 @@ export function ProgressChart({
                   tick={{ fontSize: 12 }}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(value) => `${value} кг`}
+                  tickFormatter={(value) => `${value} ${leftAxisUnit}`}
                 />
                 {hasReps && (
                   <YAxis
@@ -107,7 +109,7 @@ export function ProgressChart({
                     yAxisId="left"
                     type="monotone"
                     dataKey="volume"
-                    name="Объём"
+                    name="Калории"
                     stroke="hsl(var(--chart-3))"
                     strokeWidth={2}
                     dot={{ fill: "hsl(var(--chart-3))", strokeWidth: 2 }}

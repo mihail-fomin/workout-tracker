@@ -26,7 +26,7 @@ interface SetData {
   exerciseName: string;
   setNumber: number;
   reps?: number;
-  weight?: number;
+  calories?: number;
   duration?: number;
   distance?: number;
   notes?: string;
@@ -73,7 +73,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
         exerciseName: exercise.name,
         setNumber: newSetNumber,
         reps: undefined,
-        weight: undefined,
+        calories: undefined,
       },
     ]);
     setShowExerciseSelector(false);
@@ -90,7 +90,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
         exerciseName,
         setNumber: newSetNumber,
         reps: undefined,
-        weight: undefined,
+        calories: undefined,
       },
     ]);
   };
@@ -132,7 +132,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
           exerciseId: set.exerciseId,
           setNumber: set.setNumber,
           reps: set.reps || null,
-          weight: set.weight || null,
+          calories: set.calories || null,
           duration: set.duration || null,
           distance: set.distance || null,
           notes: set.notes || null,
@@ -300,7 +300,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
                         key={set.originalIndex}
                         setNumber={set.setNumber}
                         reps={set.reps}
-                        weight={set.weight}
+                        calories={set.calories}
                         duration={set.duration}
                         distance={set.distance}
                         onChange={(data) => handleUpdateSet(set.originalIndex, data)}

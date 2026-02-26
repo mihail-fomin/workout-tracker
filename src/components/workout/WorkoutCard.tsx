@@ -118,8 +118,8 @@ export function WorkoutCard({ workout, compact = false }: WorkoutCardProps) {
               <div className="flex items-center gap-2">
                 <Flame className="h-4 w-4 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">{volume.toLocaleString()} кг</p>
-                  <p className="text-xs text-muted-foreground">объём</p>
+                  <p className="text-sm font-medium">{volume.toLocaleString()} ккал</p>
+                  <p className="text-xs text-muted-foreground">сожжено</p>
                 </div>
               </div>
             )}

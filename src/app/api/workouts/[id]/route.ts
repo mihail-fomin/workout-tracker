@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
             exerciseId: string;
             setNumber: number;
             reps?: number;
-            weight?: number;
+            calories?: number;
             duration?: number;
             distance?: number;
             notes?: string;
@@ -70,7 +70,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
             exerciseId: set.exerciseId,
             setNumber: set.setNumber,
             reps: set.reps,
-            weight: set.weight,
+            calories: set.calories,
             duration: set.duration,
             distance: set.distance,
             notes: set.notes,

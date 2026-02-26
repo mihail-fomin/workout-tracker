@@ -134,10 +134,10 @@ export default function ProgressPage() {
                   {progressData.volumeData
                     .reduce((sum, d) => sum + d.volume, 0)
                     .toLocaleString()}{" "}
-                  кг
+                  ккал
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  суммарная нагрузка
+                  сожжено калорий
                 </p>
               </CardContent>
             </Card>
@@ -170,7 +170,7 @@ export default function ProgressPage() {
           <div className="grid gap-6 lg:grid-cols-2">
             <VolumeChart
               data={progressData.volumeData}
-              title="Объём нагрузки по неделям"
+              title="Сожжённые калории по неделям"
             />
             <FrequencyChart
               data={progressData.frequencyData}

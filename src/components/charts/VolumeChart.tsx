@@ -16,7 +16,7 @@ interface VolumeChartProps {
   title?: string;
 }
 
-export function VolumeChart({ data, title = "Объём нагрузки" }: VolumeChartProps) {
+export function VolumeChart({ data, title = "Сожжённые калории" }: VolumeChartProps) {
   return (
     <Card>
       <CardHeader>
@@ -37,7 +37,7 @@ export function VolumeChart({ data, title = "Объём нагрузки" }: Vol
                 tick={{ fontSize: 12 }}
                 tickLine={false}
                 axisLine={false}
-                tickFormatter={(value) => `${value.toLocaleString()} кг`}
+                tickFormatter={(value) => `${value.toLocaleString()} ккал`}
               />
               <Tooltip
                 contentStyle={{
@@ -46,7 +46,7 @@ export function VolumeChart({ data, title = "Объём нагрузки" }: Vol
                   borderRadius: "8px",
                 }}
                 labelStyle={{ color: "hsl(var(--foreground))" }}
-                formatter={(value: number) => [`${value.toLocaleString()} кг`, "Объём"]}
+                formatter={(value: number) => [`${value.toLocaleString()} ккал`, "Калории"]}
               />
               <Line
                 type="monotone"

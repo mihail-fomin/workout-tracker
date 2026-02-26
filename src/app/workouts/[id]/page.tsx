@@ -140,10 +140,10 @@ export default async function WorkoutPage({ params }: PageProps) {
               <div className="flex items-center gap-2">
                 <Flame className="h-4 w-4 text-muted-foreground" />
                 <span className="text-2xl font-bold">
-                  {volume.toLocaleString()} кг
+                  {volume.toLocaleString()} ккал
                 </span>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">Общий объём</p>
+              <p className="text-xs text-muted-foreground mt-2">Сожжено калорий</p>
             </CardContent>
           </Card>
         )}
@@ -189,7 +189,7 @@ export default async function WorkoutPage({ params }: PageProps) {
                       <TableRow>
                         <TableHead className="w-16">#</TableHead>
                         <TableHead>Повторения</TableHead>
-                        <TableHead>Вес</TableHead>
+                        <TableHead>Калории</TableHead>
                         <TableHead>Время</TableHead>
                         <TableHead>Дистанция</TableHead>
                       </TableRow>
@@ -204,7 +204,7 @@ export default async function WorkoutPage({ params }: PageProps) {
                             {set.reps ? `${set.reps} раз` : "—"}
                           </TableCell>
                           <TableCell>
-                            {set.weight ? `${set.weight} кг` : "—"}
+                            {set.calories ? `${set.calories} ккал` : "—"}
                           </TableCell>
                           <TableCell>
                             {set.duration ? formatDuration(set.duration) : "—"}

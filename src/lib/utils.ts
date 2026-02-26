@@ -37,11 +37,10 @@ export function formatDuration(seconds: number): string {
 }
 
 export function calculateVolume(
-  sets: { reps?: number | null; weight?: number | null }[]
+  sets: { calories?: number | null }[]
 ): number {
   return sets.reduce((total, set) => {
-    const reps = set.reps ?? 0
-    const weight = set.weight ?? 0
-    return total + reps * weight
+    const calories = set.calories ?? 0
+    return total + calories
   }, 0)
 }

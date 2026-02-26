@@ -73,6 +73,7 @@ model WorkoutSet {
   setNumber  Int
   reps       Int?
   weight     Float?
+  calories   Int?
   duration   Int?
   distance   Float?
   notes      String?

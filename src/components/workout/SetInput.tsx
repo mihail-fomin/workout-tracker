@@ -7,12 +7,12 @@ import { Trash2 } from "lucide-react";
 interface SetInputProps {
   setNumber: number;
   reps?: number;
-  weight?: number;
+  calories?: number;
   duration?: number;
   distance?: number;
   onChange: (data: {
     reps?: number;
-    weight?: number;
+    calories?: number;
     duration?: number;
     distance?: number;
   }) => void;
@@ -22,7 +22,7 @@ interface SetInputProps {
 export function SetInput({
   setNumber,
   reps,
-  weight,
+  calories,
   duration,
   distance,
   onChange,
@@ -54,17 +54,16 @@ export function SetInput({
         <div className="relative">
           <Input
             type="number"
-            placeholder="Вес"
-            value={weight || ""}
+            placeholder="Калории"
+            value={calories || ""}
             onChange={(e) =>
-              onChange({ weight: e.target.value ? parseFloat(e.target.value) : undefined })
+              onChange({ calories: e.target.value ? parseInt(e.target.value) : undefined })
             }
             className="pr-10"
             min={0}
-            step={0.5}
           />
           <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-muted-foreground">
-            кг
+            ккал
           </span>
         </div>
 

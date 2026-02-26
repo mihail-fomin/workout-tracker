@@ -33,7 +33,7 @@ export type SetFormData = {
   exerciseId: string;
   setNumber: number;
   reps?: number;
-  weight?: number;
+  calories?: number;
   duration?: number;
   distance?: number;
   notes?: string;

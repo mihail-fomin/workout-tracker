@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { PrimaryMuscleGroup } from "@prisma/client";
 
@@ -34,12 +35,28 @@ export async function GET(request: NextRequest) {
     const exercises = await prisma.exercise.findMany({
       where,
       orderBy: { name: "asc" },
-      include: {
-        _count: { select: { sets: true } },
-      },
     });
 
-    return NextResponse.json(exercises);
+    let workoutCountMap: Record<string, number> = {};
+    const exerciseIds = exercises.map((e) => e.id);
+    if (exerciseIds.length > 0) {
+      const counts = await prisma.$queryRaw<{ exerciseId: string; count: bigint }[]>`
+        SELECT "exerciseId", COUNT(DISTINCT "workoutId") as count
+        FROM "WorkoutSet"
+        WHERE "exerciseId" IN (${Prisma.join(exerciseIds)})
+        GROUP BY "exerciseId"
+      `;
+      workoutCountMap = Object.fromEntries(
+        counts.map((r) => [r.exerciseId, Number(r.count)])
+      );
+    }
+
+    const exercisesWithWorkoutCount = exercises.map((e) => ({
+      ...e,
+      _count: { workoutCount: workoutCountMap[e.id] ?? 0 },
+    }));
+
+    return NextResponse.json(exercisesWithWorkoutCount);
   } catch (error) {
     console.error("Error fetching exercises:", error);
     return NextResponse.json(

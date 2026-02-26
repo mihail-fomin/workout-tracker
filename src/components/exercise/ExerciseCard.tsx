@@ -62,7 +62,7 @@ export function ExerciseCard({ exercise, usageCount }: ExerciseCardProps) {
 
           {usageCount !== undefined && (
             <p className="text-xs text-muted-foreground mt-3">
-              Выполнено: {usageCount} раз
+              Тренировок: {usageCount}
             </p>
           )}
         </CardContent>

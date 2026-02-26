@@ -16,7 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Plus, Search, BookOpen, Loader2 } from "lucide-react";
 import { Exercise, PRIMARY_MUSCLE_GROUP_LABELS, MUSCLE_GROUPS } from "@/types";
 
-type ExerciseWithCount = Exercise & { _count: { sets: number } };
+type ExerciseWithCount = Exercise & { _count: { workoutCount: number } };
 
 export default function ExercisesPage() {
   const [exercises, setExercises] = useState<ExerciseWithCount[]>([]);
@@ -154,7 +154,7 @@ export default function ExercisesPage() {
             <ExerciseCard
               key={exercise.id}
               exercise={exercise}
-              usageCount={exercise._count.sets}
+              usageCount={exercise._count.workoutCount}
             />
           ))}
         </div>

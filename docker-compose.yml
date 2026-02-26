@@ -1,0 +1,40 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: workout-tracker-db
+    environment:
+      POSTGRES_DB: workout_tracker
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: workout-tracker-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:${DB_PASSWORD:-postgres}@db:5432/workout_tracker
+      SAMSUNG_HEALTH_CLIENT_ID: ${SAMSUNG_HEALTH_CLIENT_ID}
+      SAMSUNG_HEALTH_CLIENT_SECRET: ${SAMSUNG_HEALTH_CLIENT_SECRET}
+      SAMSUNG_HEALTH_REDIRECT_URI: ${SAMSUNG_HEALTH_REDIRECT_URI}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+    restart: unless-stopped
+
+volumes:
+  pgdata:

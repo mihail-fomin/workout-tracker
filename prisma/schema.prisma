@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PrimaryMuscleGroup {
+  CHEST
+  LEGS
+  BACK
+  SHOULDERS
+  BICEPS
+  TRICEPS
+  ABS_HYPEREXTENSION
+  CARDIO
+  FLEXIBILITY
+}
+
+enum WorkoutType {
+  STRENGTH
+  CARDIO
+  STRETCHING
+  MIXED
+}
+
+enum WorkoutSource {
+  MANUAL
+  SAMSUNG_HEALTH
+}
+
+model Exercise {
+  id                 String             @id @default(cuid())
+  name               String
+  description        String?
+  muscleGroups       String[]
+  primaryMuscleGroup PrimaryMuscleGroup @default(CHEST)
+  isCustom           Boolean            @default(false)
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+  sets               WorkoutSet[]
+
+  @@index([primaryMuscleGroup])
+  @@index([isCustom])
+}
+
+model Workout {
+  id         String        @id @default(cuid())
+  date       DateTime
+  startTime  DateTime
+  endTime    DateTime?
+  type       WorkoutType
+  notes      String?
+  source     WorkoutSource @default(MANUAL)
+  externalId String?       @unique
+  calories   Int?
+  avgHeartRate Int?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+  sets       WorkoutSet[]
+
+  @@index([date])
+  @@index([type])
+  @@index([source])
+}
+
+model WorkoutSet {
+  id         String   @id @default(cuid())
+  workoutId  String
+  exerciseId String
+  setNumber  Int
+  reps       Int?
+  weight     Float?
+  duration   Int?
+  distance   Float?
+  notes      String?
+  createdAt  DateTime @default(now())
+  workout    Workout  @relation(fields: [workoutId], references: [id], onDelete: Cascade)
+  exercise   Exercise @relation(fields: [exerciseId], references: [id], onDelete: Cascade)
+
+  @@index([workoutId])
+  @@index([exerciseId])
+}
+
+model SamsungHealthToken {
+  id           String    @id @default(cuid())
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  lastSyncAt   DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}

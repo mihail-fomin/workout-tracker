@@ -43,7 +43,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
   try {
     const { id } = await context.params;
     const body = await request.json();
-    const { date, startTime, endTime, type, notes, sets } = body;
+    const { date, startTime, endTime, type, notes, calories, sets } = body;
 
     await prisma.workoutSet.deleteMany({
       where: { workoutId: id },
@@ -57,12 +57,13 @@ export async function PUT(request: NextRequest, context: RouteContext) {
         endTime: endTime ? new Date(endTime) : null,
         type: type as WorkoutType,
         notes,
+        calories: calories ?? undefined,
         sets: {
           create: sets?.map((set: {
             exerciseId: string;
             setNumber: number;
             reps?: number;
-            calories?: number;
+            weight?: number;
             duration?: number;
             distance?: number;
             notes?: string;
@@ -70,7 +71,7 @@ export async function PUT(request: NextRequest, context: RouteContext) {
             exerciseId: set.exerciseId,
             setNumber: set.setNumber,
             reps: set.reps,
-            calories: set.calories,
+            weight: set.weight,
             duration: set.duration,
             distance: set.distance,
             notes: set.notes,

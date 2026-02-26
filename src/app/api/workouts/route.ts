@@ -70,7 +70,7 @@ export async function POST(request: NextRequest) {
             exerciseId: string;
             setNumber: number;
             reps?: number;
-            calories?: number;
+            weight?: number;
             duration?: number;
             distance?: number;
             notes?: string;
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
             exerciseId: set.exerciseId,
             setNumber: set.setNumber,
             reps: set.reps,
-            calories: set.calories,
+            weight: set.weight,
             duration: set.duration,
             distance: set.distance,
             notes: set.notes,

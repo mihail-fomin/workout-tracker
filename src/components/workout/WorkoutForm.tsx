@@ -26,7 +26,7 @@ interface SetData {
   exerciseName: string;
   setNumber: number;
   reps?: number;
-  calories?: number;
+  weight?: number;
   duration?: number;
   distance?: number;
   notes?: string;
@@ -41,6 +41,7 @@ interface WorkoutFormProps {
     endTime?: string;
     type: WorkoutType;
     notes?: string;
+    calories?: number;
     sets: SetData[];
   };
 }
@@ -58,6 +59,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
     endTime: initialData?.endTime || "",
     type: initialData?.type || WorkoutType.STRENGTH,
     notes: initialData?.notes || "",
+    calories: initialData?.calories ?? undefined,
   });
 
   const [sets, setSets] = useState<SetData[]>(initialData?.sets || []);
@@ -73,7 +75,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
         exerciseName: exercise.name,
         setNumber: newSetNumber,
         reps: undefined,
-        calories: undefined,
+        weight: undefined,
       },
     ]);
     setShowExerciseSelector(false);
@@ -90,7 +92,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
         exerciseName,
         setNumber: newSetNumber,
         reps: undefined,
-        calories: undefined,
+        weight: undefined,
       },
     ]);
   };
@@ -128,11 +130,12 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
           : null,
         type: formData.type,
         notes: formData.notes || null,
+        calories: formData.calories ?? null,
         sets: sets.map((set) => ({
           exerciseId: set.exerciseId,
           setNumber: set.setNumber,
           reps: set.reps || null,
-          calories: set.calories || null,
+          weight: set.weight || null,
           duration: set.duration || null,
           distance: set.distance || null,
           notes: set.notes || null,
@@ -245,18 +248,35 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="notes">Заметки</Label>
-            <Textarea
-              id="notes"
-              value={formData.notes}
-              onChange={(e) =>
-                setFormData({ ...formData, notes: e.target.value })
-              }
-              placeholder="Как прошла тренировка..."
-              rows={3}
-            />
-          </div>
+            <div className="space-y-2">
+              <Label htmlFor="calories">Калории (сожжено за тренировку)</Label>
+              <Input
+                id="calories"
+                type="number"
+                placeholder="Введите количество ккал"
+                value={formData.calories ?? ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    calories: e.target.value ? parseInt(e.target.value) : undefined,
+                  })
+                }
+                min={0}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="notes">Заметки</Label>
+              <Textarea
+                id="notes"
+                value={formData.notes}
+                onChange={(e) =>
+                  setFormData({ ...formData, notes: e.target.value })
+                }
+                placeholder="Как прошла тренировка..."
+                rows={3}
+              />
+            </div>
         </CardContent>
       </Card>
 
@@ -300,7 +320,7 @@ export function WorkoutForm({ exercises, initialData }: WorkoutFormProps) {
                         key={set.originalIndex}
                         setNumber={set.setNumber}
                         reps={set.reps}
-                        calories={set.calories}
+                        weight={set.weight}
                         duration={set.duration}
                         distance={set.distance}
                         onChange={(data) => handleUpdateSet(set.originalIndex, data)}

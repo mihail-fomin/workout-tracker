@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { formatDate, formatTime, formatDuration, calculateVolume } from "@/lib/utils";
+import { formatDate, formatTime, formatDuration } from "@/lib/utils";
 import { WORKOUT_TYPE_LABELS, WORKOUT_TYPE_COLORS } from "@/types";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -53,7 +53,7 @@ export default async function WorkoutPage({ params }: PageProps) {
       )
     : 0;
 
-  const volume = calculateVolume(workout.sets);
+  const calories = workout.calories ?? 0;
 
   const groupedSets = workout.sets.reduce(
     (acc, set) => {
@@ -134,13 +134,13 @@ export default async function WorkoutPage({ params }: PageProps) {
           </Card>
         )}
 
-        {volume > 0 && (
+        {(calories > 0 || workout.calories != null) && (
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-2">
                 <Flame className="h-4 w-4 text-muted-foreground" />
                 <span className="text-2xl font-bold">
-                  {volume.toLocaleString()} ккал
+                  {(workout.calories ?? 0).toLocaleString()} ккал
                 </span>
               </div>
               <p className="text-xs text-muted-foreground mt-2">Сожжено калорий</p>
@@ -189,7 +189,7 @@ export default async function WorkoutPage({ params }: PageProps) {
                       <TableRow>
                         <TableHead className="w-16">#</TableHead>
                         <TableHead>Повторения</TableHead>
-                        <TableHead>Калории</TableHead>
+                        <TableHead>Вес</TableHead>
                         <TableHead>Время</TableHead>
                         <TableHead>Дистанция</TableHead>
                       </TableRow>
@@ -204,7 +204,7 @@ export default async function WorkoutPage({ params }: PageProps) {
                             {set.reps ? `${set.reps} раз` : "—"}
                           </TableCell>
                           <TableCell>
-                            {set.calories ? `${set.calories} ккал` : "—"}
+                            {set.weight ? `${set.weight} кг` : "—"}
                           </TableCell>
                           <TableCell>
                             {set.duration ? formatDuration(set.duration) : "—"}

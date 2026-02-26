@@ -54,18 +54,17 @@ export default async function ExercisePage({ params }: PageProps) {
 
   const progressByDate: Record<
     string,
-    { maxWeight: number; maxReps: number; volume: number }
+    { maxWeight: number; maxReps: number; volume: number; seenWorkouts: Set<string> }
   > = {};
 
   exercise.sets.forEach((set) => {
     const dateKey = format(new Date(set.workout.date), "dd.MM");
     if (!progressByDate[dateKey]) {
-      progressByDate[dateKey] = { maxWeight: 0, maxReps: 0, volume: 0 };
+      progressByDate[dateKey] = { maxWeight: 0, maxReps: 0, volume: 0, seenWorkouts: new Set() };
     }
 
     const weight = set.weight ?? 0;
     const reps = set.reps ?? 0;
-    const calories = set.calories ?? 0;
 
     if (weight > progressByDate[dateKey].maxWeight) {
       progressByDate[dateKey].maxWeight = weight;
@@ -73,13 +72,18 @@ export default async function ExercisePage({ params }: PageProps) {
     if (reps > progressByDate[dateKey].maxReps) {
       progressByDate[dateKey].maxReps = reps;
     }
-    progressByDate[dateKey].volume += calories;
+    if (!progressByDate[dateKey].seenWorkouts.has(set.workout.id)) {
+      progressByDate[dateKey].seenWorkouts.add(set.workout.id);
+      progressByDate[dateKey].volume += set.workout.calories ?? 0;
+    }
   });
 
   const progressData = Object.entries(progressByDate)
     .map(([date, data]) => ({
       date,
-      ...data,
+      maxWeight: data.maxWeight,
+      maxReps: data.maxReps,
+      volume: data.volume,
     }))
     .reverse();
 

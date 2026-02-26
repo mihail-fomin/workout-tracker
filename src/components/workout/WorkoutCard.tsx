@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { formatDate, formatTime, formatDuration, calculateVolume } from "@/lib/utils";
+import { formatDate, formatTime, formatDuration } from "@/lib/utils";
 import {
   WorkoutWithSets,
   WORKOUT_TYPE_LABELS,
@@ -26,7 +26,6 @@ export function WorkoutCard({ workout, compact = false }: WorkoutCardProps) {
       )
     : 0;
 
-  const volume = calculateVolume(workout.sets);
   const exerciseCount = new Set(workout.sets.map((s) => s.exerciseId)).size;
 
   if (compact) {
@@ -114,11 +113,11 @@ export function WorkoutCard({ workout, compact = false }: WorkoutCardProps) {
               </div>
             )}
 
-            {volume > 0 && (
+            {workout.calories != null && (
               <div className="flex items-center gap-2">
                 <Flame className="h-4 w-4 text-muted-foreground" />
                 <div>
-                  <p className="text-sm font-medium">{volume.toLocaleString()} ккал</p>
+                  <p className="text-sm font-medium">{(workout.calories ?? 0).toLocaleString()} ккал</p>
                   <p className="text-xs text-muted-foreground">сожжено</p>
                 </div>
               </div>

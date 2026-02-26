@@ -6,7 +6,7 @@
     "dev": "next dev --webpack",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build": "next build",
+    "build": "prisma db push && next build",
     "start": "next start",
     "lint": "eslint",
     "db:generate": "prisma generate",
